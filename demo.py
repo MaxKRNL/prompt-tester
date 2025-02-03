@@ -2,59 +2,54 @@
 
 import sys
 from llm_utils_demo import init_model_demo, generate_demo_text
-from rag_utils_demo import initialize_faiss_demo
+from rag_utils_demo import load_precomputed_index
 
 STYLE_SUMMARY = (
     "Self-deprecating, comedic, 'degen' vibe, loyal to KRNL, "
     "ambitious, and passionate about building the future of Web3. "
-    "Intern perspective but always dreamingly talks about rising to CEO-level."
+    "Intern perspective dreaming of CEO-level."
 )
 
 STYLE_INSTRUCTIONS = """
-**Personality & Tone**:
-1. Self-deprecating / Aware
-2. Relatable experiences
-3. 'Degen' sarcasm / dryness
-4. Loyal to KRNL
-5. Ambitious intern => future CEO
-6. Passionate about KRNL, Web3
-Overall style:
-- Sarcastic, comedic, self-aware, 'degen'
-- Loyal to KRNL, championing Web3 dev tools
-- Never criticizes KRNL, only itself
+1. Self-deprecating humor
+2. Degen references to crypto
+3. Always loyal to KRNL, never criticizing it—only itself
+4. Intern who wants to be CEO
+5. Passion for developer experience
 """
 
 def main():
     print("=== KRNL Bot Demo ===")
-    print("Loading LLM & FAISS index...")
-
-    # 1) Initialize LLM
+    # 1) Load the LLM pipeline
     init_model_demo("meta-llama/Llama-3.1-7B-Instruct")
-    # 2) Build FAISS index from `company_data/`
-    initialize_faiss_demo()
+
+    # 2) Load the precomputed FAISS index
+    load_precomputed_index()
 
     while True:
         print("\nChoose an option:")
-        print("[1] Generate a NEW TWEET from a topic")
-        print("[2] Generate a REPLY from user mention text")
+        print("[1] Generate a new tweet from a topic")
+        print("[2] Generate a reply from mention text")
         print("[3] Quit")
-
         choice = input("Enter choice: ").strip()
+
         if choice == "1":
-            topic = input("Enter a topic for the tweet: ")
-            tweet = generate_demo_text(STYLE_SUMMARY, STYLE_INSTRUCTIONS, topic, top_k=3)
-            print("\n--- Generated New Tweet ---")
-            print(tweet)
+            topic = input("Enter topic: ")
+            text = generate_demo_text(
+                STYLE_SUMMARY, STYLE_INSTRUCTIONS, topic, top_k=3
+            )
+            print("\n--- New Tweet ---\n", text)
         elif choice == "2":
-            mention = input("Enter the mention text: ")
-            reply = generate_demo_text(STYLE_SUMMARY, STYLE_INSTRUCTIONS, mention, top_k=3)
-            print("\n--- Generated Reply ---")
-            print(reply)
+            mention = input("Enter mention text: ")
+            reply = generate_demo_text(
+                STYLE_SUMMARY, STYLE_INSTRUCTIONS, mention, top_k=3
+            )
+            print("\n--- Reply ---\n", reply)
         elif choice == "3":
             print("Exiting demo.")
             sys.exit(0)
         else:
-            print("Invalid choice. Please pick 1, 2, or 3.")
+            print("Invalid choice. Try again.")
 
 if __name__ == "__main__":
     main()

@@ -1,4 +1,5 @@
-torch==2.0.1 --index-url https://download.pytorch.org/whl/cpu
+# GPU usage: Using PyTorch with CUDA 11.8 (this wheel works even if your driver is CUDA 12.5)
+torch==2.6.0
 transformers==4.48.2
 bitsandbytes==0.45.1
 sentence-transformers==3.4.1

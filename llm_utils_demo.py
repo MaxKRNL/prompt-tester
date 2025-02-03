@@ -11,9 +11,14 @@ from transformers import (
 )
 from rag_utils_demo import retrieve_context
 
+# Global pipeline
 generation_pipeline = None
 
 def init_model_demo(model_name: str = "meta-llama/Llama-3.1-7B-Instruct"):
+    """
+    Initialize a quantized Llama-based model for text generation in 8-bit.
+    No FAISS embedding or chunking logic is here—only LLM inference setup.
+    """
     global generation_pipeline
 
     quant_config = BitsAndBytesConfig(
@@ -24,7 +29,7 @@ def init_model_demo(model_name: str = "meta-llama/Llama-3.1-7B-Instruct"):
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
         quantization_config=quant_config,
-        device_map="cpu",  # Force usage of CPU
+        device_map="auto",  # or "cpu" if you want CPU-only
         offload_folder="offload",
         offload_state_dict=True
     )
@@ -55,23 +60,32 @@ def remove_filler_phrases(text: str) -> str:
     return text
 
 def clean_model_output(text: str) -> str:
-    # Remove repeated instruction markers
+    """
+    Remove repeated instruction markers, disclaimers,
+    and anything after 'Total Character used:'.
+    """
+    # 1. Remove repeated instruction markers
     if "Now, provide ONLY the tweet:" in text:
         text = text.split("Now, provide ONLY the tweet:")[-1].strip()
     elif "Now, provide ONLY the tweet" in text:
         text = text.split("Now, provide ONLY the tweet")[-1].strip()
 
+    # 2. Remove prompt markers
     for marker in ["Task:", "Constraints:", "You are a Twitter content generator", "Instructions:"]:
         if marker in text:
             text = text.split(marker)[0].strip()
 
-    # Truncate after "Total Character used:"
+    # 3. Truncate after "Total Character used:"
     if "Total Character used:" in text:
         text = text.split("Total Character used:")[0].strip()
 
     return text.strip()
 
 def final_cleanup(text: str) -> str:
+    """
+    Removes leftover tokens, repeated punctuation, etc.
+    Ensures a clean tweet under 280 chars.
+    """
     text = re.sub(r"</s>", "", text)
     text = re.sub(r"\s+", " ", text)
     text = re.sub(r"[)\-:;.,]{2,}", "", text)
@@ -120,31 +134,31 @@ def generate_demo_text(
     top_k: int = 3
 ) -> str:
     """
-    1) Retrieve top_k context from FAISS
-    2) Build the comedic prompt w/ instructions
-    3) Cleanup final text
+    1) Retrieves precomputed context from the FAISS index (via retrieve_context).
+    2) Builds the comedic prompt with RAG + style instructions.
+    3) Cleans up final text and ensures 280-char limit.
     """
     global generation_pipeline
     if generation_pipeline is None:
         raise ValueError("Model pipeline not initialized. Call init_model_demo() first.")
 
-    # Retrieve context from knowledge base
+    # 1) Retrieve context from the precomputed FAISS index
     retrieved = retrieve_context(user_input, top_k=top_k)
     rag_text = "\n\n".join([f"Context chunk:\n{chunk}" for chunk, score in retrieved])
 
-    # Build final prompt
+    # 2) Build final prompt
     prompt = build_demo_prompt(style_summary, style_instructions, user_input, rag_text)
 
-    # Generate
+    # 3) Generate
     outputs = generation_pipeline(prompt, num_return_sequences=1)
     raw_text = outputs[0]["generated_text"]
 
-    # Cleanup
+    # 4) Cleanup
     text = clean_model_output(raw_text)
     text = remove_filler_phrases(text)
     text = final_cleanup(text)
 
-    # Ensure 280 chars
+    # 5) Enforce 280 chars
     if len(text) > 280:
         text = text[:280].rstrip()
 
