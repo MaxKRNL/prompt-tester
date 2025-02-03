@@ -14,7 +14,7 @@ from rag_utils_demo import retrieve_context
 # Global pipeline
 generation_pipeline = None
 
-def init_model_demo(model_name: str = "meta-llama/Llama-3.1-7B-Instruct"):
+def init_model_demo(model_name: str = "meta-llama/Llama-3.1-8B-Instruct"):
     """
     Initialize a quantized Llama-based model for text generation in 8-bit.
     No FAISS embedding or chunking logic is here—only LLM inference setup.

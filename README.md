@@ -80,6 +80,13 @@ Before running the demo, you must build the FAISS index from .txt files in compa
 You only need to redo this step if you change or add .txt files in company_data/.
 
 ## **Running the Demo**
+Before running the code itself, make sure to login into huggingface via
+```bash
+huggingface-cli login
+```
+
+Then for the token contact Max for the detail. After that you can run the code normally.
+
 ```bash
 python3 demo.py
 ```
