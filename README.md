@@ -1,5 +1,11 @@
 # **KRNL RAG Demo**
 
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
+![GitHub Issues](https://img.shields.io/github/issues/MaxKRNL/prompt-tester)
+![GitHub Pull Requests](https://img.shields.io/github/issues-pr/MaxKRNL/prompt-tester)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/MaxKRNL/prompt-tester/ci.yml?branch=main)
+
 A demonstration of how to use **Retrieval-Augmented Generation (RAG)** with a **quantized Llama** model for comedic, self-deprecating “KRNL intern” tweets or replies. This project **precomputes** a FAISS index of `.txt` documents, so the main script can load and use the index without re-processing the data each time.
 
 ---
