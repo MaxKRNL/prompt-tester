@@ -27,7 +27,7 @@ Overall style:
 def main():
     print("=== KRNL Bot Demo ===")
     # 1) Load the LLM pipeline
-    init_model_demo("meta-llama/Llama-3.1-7B-Instruct")
+    init_model_demo("meta-llama/Llama-3.1-8B-Instruct")
 
     # 2) Load the precomputed FAISS index
     load_precomputed_index()

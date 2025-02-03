@@ -7,3 +7,4 @@ faiss-cpu==1.7.3
 tqdm
 sentencepiece
 numpy<2
+accelerate>=0.26.0
