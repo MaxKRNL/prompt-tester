@@ -6,3 +6,4 @@ sentence-transformers==3.4.1
 faiss-cpu==1.7.3
 tqdm
 sentencepiece
+numpy<2
