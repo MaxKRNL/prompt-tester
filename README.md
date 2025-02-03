@@ -20,7 +20,7 @@ prompt-tester/
 ## **Setup**
 
 1. **Start venv**
-To avoid dependency conflicst, create and activate a **Python3** virtual environment before installing dependencies:
+To avoid dependency conflict, create and activate a **Python3** virtual environment before installing dependencies:
 ```bash
 python3 -m venv venv
 ```
@@ -49,18 +49,18 @@ cd prompt-tester
 
 A GPU environment is recommended for smooth 8-bit usage. 
 
-2. **Run**
+4. **Run**
  ```bash
 python3 demo.py
 ```
 
-4. The console will let you pick generating a new tweet or a reply.  
+5. The console will let you pick generating a new tweet or a reply.  
 
-5. The code automatically **retrieves** context from the `.txt` in `company_data/` to demonstrate RAG.  
+6. The code automatically **retrieves** context from the `.txt` in `company_data/` to demonstrate RAG.  
 
-6. The **final** comedic tweet or reply is printed to your terminal.
+7. The **final** comedic tweet or reply is printed to your terminal.
 
-7. **(Optional)** Adjust chunk size or embedding model in rag_utils_demo.py.
+8. **(Optional)** Adjust chunk size or embedding model in rag_utils_demo.py.
 
 ### **Notes**
 This is purely offline demo. No real twitter posting or mentions. To integrate with real Twitter, adapt code from your main bot. By default, uses **meta-llama/Llama-3.1-7B-Instruct** with 8-bit quantization. Adjust in **init_model_demo**.
