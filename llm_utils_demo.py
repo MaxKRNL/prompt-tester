@@ -24,7 +24,7 @@ def init_model_demo(model_name: str = "meta-llama/Llama-3.1-7B-Instruct"):
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
         quantization_config=quant_config,
-        device_map="auto",
+        device_map="cpu",  # Force usage of CPU
         offload_folder="offload",
         offload_state_dict=True
     )

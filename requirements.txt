@@ -1,6 +1,7 @@
-transformers
-bitsandbytes
-torch
+torch==2.0.1 --index-url https://download.pytorch.org/whl/cpu
+transformers==4.48.2
+bitsandbytes==0.45.1
+sentence-transformers==3.4.1
+faiss-cpu==1.7.3
+tqdm
 sentencepiece
-faiss-cpu
-sentence-transformers
