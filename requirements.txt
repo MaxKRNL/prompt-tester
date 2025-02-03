@@ -1,0 +1,6 @@
+transformers
+bitsandbytes
+torch
+sentencepiece
+faiss-cpu
+sentence-transformers
