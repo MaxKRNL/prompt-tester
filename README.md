@@ -53,8 +53,8 @@ prompt-tester/
 
 1. **Clone this Repo**:
    ```bash
-   git clone https://github.com/yourusername/demo-bot.git
-   cd demo-bot
+   git clone https://github.com/yourusername/prompt-tester.git
+   cd prompt-tester
     ```
 
 2. **Create & Activate a Python 3 Venv**
